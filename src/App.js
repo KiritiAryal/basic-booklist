@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+// import Book from "./Book";
+import { useState } from "react";
+import Book from "./Book";
+import books from "./common/books";
 
 function App() {
+  const [cover, setCover] = useState(books);
+  const deleteBook = (id) => {
+    setCover((prevState) => {
+      let newBooks = prevState.filter((book) => book.id !== id);
+      console.log(newBooks);
+      return newBooks;
+    });
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {books.map((book) => {
+        return (
+          <>
+            <Book {...book} />
+            <div key={book.id}>
+              <button type="button" onClick={() => deleteBook(book.id)}>
+                Delete
+              </button>
+            </div>
+          </>
+        );
+      })}
     </div>
   );
 }
